@@ -77,7 +77,7 @@ BOARD_FEED_RESOURCE = "https://www.pinterest.com/resource/BoardFeedResource/get/
 USER_HOME_FEED_RESOURCE = (
     "https://www.pinterest.com/_ngjs/resource/UserHomefeedResource/get/"
 )
-USER_PIN_RESOURCE = "https://www.pinterest.com/resource/UserPinsResource/get/"
+USER_PIN_RESOURCE = "https://id.pinterest.com/resource/UserStoryPinsFeedResource/get/"
 BASE_SEARCH_RESOURCE = "https://www.pinterest.com/resource/BaseSearchResource/get/"
 BOARD_INVITES_RESOURCE = (
     "https://www.pinterest.com/_ngjs/resource/BoardInvitesResource/get/"
