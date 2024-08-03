@@ -77,7 +77,8 @@ BOARD_FEED_RESOURCE = "https://www.pinterest.com/resource/BoardFeedResource/get/
 USER_HOME_FEED_RESOURCE = (
     "https://www.pinterest.com/_ngjs/resource/UserHomefeedResource/get/"
 )
-USER_PIN_RESOURCE = "https://id.pinterest.com/resource/UserStoryPinsFeedResource/get/"
+USER_PIN_RESOURCE = "https://www.pinterest.com/resource/UserStoryPinsFeedResource/get/"
+USER_ACTIVITY_PIN_RESOURCE = "https://www.pinterest.com/resource/UserActivityPinsResource/get/"
 BASE_SEARCH_RESOURCE = "https://www.pinterest.com/resource/BaseSearchResource/get/"
 BOARD_INVITES_RESOURCE = (
     "https://www.pinterest.com/_ngjs/resource/BoardInvitesResource/get/"
@@ -387,6 +388,37 @@ class Pinterest:
         bookmark = response["resource"]["options"]["bookmarks"][0]
         self.bookmark_manager.add_bookmark(
             primary="pins", secondary=username, bookmark=bookmark
+        )
+
+        return response["resource_response"]["data"]
+
+    def get_user_activity_pins(self, username, reset_bookmark=False):
+        next_bookmark = self.bookmark_manager.get_bookmark(
+            primary="pins_activity", secondary=username
+        )
+
+        if next_bookmark == "-end-":
+            if reset_bookmark:
+                self.bookmark_manager.reset_bookmark(primary="pins_activity", secondary=username)
+            return []
+
+        options = {
+            "data": {},
+            "exclude_add_pin_rep": True,
+            "field_set_key": "grid_item",
+            "is_own_profile_pins": True,
+            "redux_normalize_feed": True,
+            "username": username,
+            "bookmarks": [next_bookmark],
+            "context": {}
+        }
+
+        url = self.req_builder.buildGet(url=USER_ACTIVITY_PIN_RESOURCE, options=options)
+
+        response = self.get(url=url).json()
+        bookmark = response["resource"]["options"]["bookmarks"][0]
+        self.bookmark_manager.add_bookmark(
+            primary="pins_activity", secondary=username, bookmark=bookmark
         )
 
         return response["resource_response"]["data"]
