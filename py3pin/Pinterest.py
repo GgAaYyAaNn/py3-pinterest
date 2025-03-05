@@ -151,6 +151,7 @@ class Pinterest:
                 ("X-Requested-With", "XMLHttpRequest"),
                 ("Accept", "application/json"),
                 ("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8"),
+                ("X-Pinterest-PWS-Handler", "www/[username].js"),
                 ("User-Agent", self.user_agent),
             ]
         )
